@@ -1,11 +1,13 @@
 from queue import Queue
 import time
+import uuid
 
 queue = Queue()
 
 
-def generate_request(request):
-    queue.put(request)
+def generate_request():
+    task_uuid = uuid.uuid4()
+    queue.put(task_uuid)
 
 
 def process_request():
@@ -20,17 +22,15 @@ def process_request():
         print("Queue is empty")
 
 
-def main():
-    while True:
-        task_name = input("Enter a task: ")
+if __name__ == "__main__":
+    try:
+        input("Press Enter to run tasks processing: ")
 
-        if task_name in ["bye", "close", "exit"]:
-            print("Good bye!")
-            break
-        else:
-            generate_request(task_name)
+        while True:
+            generate_request()
             process_request()
 
-
-if __name__ == "__main__":
-    main()
+    except KeyboardInterrupt as err:
+        print(err)
+    except ValueError as err:
+        print(err)
